@@ -1,0 +1,22 @@
+name: Countinous Integration & Countinous Deployment
+on:
+  push:
+   branches: [ master ]
+jobs:
+  build:
+   runs-on: ubuntu-latest
+   steps:
+    - name: Pre & Post Actions Check
+      uses: actions/checkout@v3
+    - name: Installing NodeJS
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16 
+    - name: Installing NPM 
+      run: npm i
+    - name: Creating Build of App
+      run: npm run build
+    - name: Installing Surge
+      run: npm i -g surge
+    - name: Deploy With Surge
+      run: surge ./build http://com-trail.surge.sh/ --token ${{ secrets.HELLO }}
